@@ -1,0 +1,41 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+        <mat-card>
+            <mat-card-content>
+                <div>
+                    <h3>Total : {{data.total}}</h3>
+                </div>
+                <div class="padding-bottom-10 ">
+                    <form [formGroup]="patientPaymentForm" (ngSubmit)="store(patientPaymentForm.value)"  >
+                        <mat-form-field class="">
+                            <input matInput placeholder="price" formControlName="payed_price"
+                                   type="number">
+
+                            <mat-error *ngIf="patientPaymentForm.controls['payed_price'].hasError('min')">
+                                {{ errorMessages.min }}
+                            </mat-error>
+
+                            <mat-error *ngIf="patientPaymentForm.controls['payed_price'].hasError('max')">
+                                {{ errorMessages.max }}
+                            </mat-error>
+
+                            <mat-error *ngIf="patientPaymentForm.controls['payed_price'].hasError('required')">
+                                <strong>{{errorMessages.required}}</strong>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-card-actions class="login-actions">
+                            <button mat-raised-button color="primary"
+                                    [disabled]="patientPaymentForm.invalid"
+                            >insert
+                            </button>
+                            <button id="resetPassword" mat-raised-button color="default" (click)="close()" type="button">
+                                close
+                            </button>
+                        </mat-card-actions>
+                    </form>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+

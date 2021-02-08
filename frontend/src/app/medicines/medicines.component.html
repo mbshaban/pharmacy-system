@@ -1,0 +1,76 @@
+
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+<!--        <mat-card>-->
+<!--            <mat-card-content>-->
+<!--                <h5> add new medicine </h5>-->
+<!--            </mat-card-content>-->
+<!--        </mat-card>-->
+        <mat-card>
+            <mat-card-content>
+                <ng-container>
+                <h2 class="float-left">Medicines</h2>
+                 <button mat-raised-button class="float-right"  (click)="addNewMedicine()"> add new</button>
+                </ng-container>
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                        <td mat-cell *matCellDef="let element ;let i=index"> {{(((paginationData.pageIndex - 1) * paginationData.pageSize) + (i + 1))}} </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="company_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="generic_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Generic Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.generic_name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="measurement_value">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Measurement Value </th>
+                        <td mat-cell *matCellDef="let element"> {{element.measurement_value +" " + element.mmuTitle}}  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="medicine_type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine Type </th>
+                        <td mat-cell *matCellDef="let element"> {{element.mtTitle}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="created_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.created_at | date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef > action </th>
+                        <td mat-cell *matCellDef="let element">
+
+                           <button mat-mini-fab color="warn"  (click)="deleteMedicine(element.id)"> <mat-icon mat-list-icon class="action-icon">clear</mat-icon></button>
+                            &nbsp;
+                            &nbsp;
+                            <button mat-mini-fab color="primary" (click)="editMedicine(element)"> <mat-icon mat-list-icon class="action-icon">edit</mat-icon></button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="text-right">
+                    <mat-paginator dir="ltr"
+                                   (page)="onPageChangeEvent($event)">
+                    </mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>
+<div class="container dialog-bottom" fxLayout="row" fxLayoutAlign="center center">
+    <mat-progress-bar fxFlex="95%" fxFlex.sm="100%" fxFlex.xs="100%" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+</div>

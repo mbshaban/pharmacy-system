@@ -1,0 +1,108 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center center">
+
+    <form [formGroup]="medicineForm">
+
+        <mat-card  fxFlex="100%" fxFlex.sm="100%" fxFlex.xs="100%">
+            <mat-card-title>Add New Medicine</mat-card-title>
+            <mat-card-content>
+
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="name" formControlName="name" autocomplete="name"
+                           type="text">
+
+                    <mat-error  *ngIf="medicineForm.controls['name'].hasError('minlength')">
+                        {{ errorMessages.minLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['name'].hasError('maxlength')">
+                        {{ errorMessages.maxLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['name'].hasError('required')">
+                          <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+
+
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="company name" formControlName="company_name" autocomplete="company name"
+                            type="text">
+
+                    <mat-error  *ngIf="medicineForm.controls['company_name'].hasError('minlength')">
+                        {{ errorMessages.minLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['company_name'].hasError('maxlength')">
+                        {{ errorMessages.maxLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['company_name'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="Generic Name" formControlName="generic_name" autocomplete="generic_name"
+                            type="text">
+
+                    <mat-error  *ngIf="medicineForm.controls['generic_name'].hasError('minlength')">
+                        {{ errorMessages.minLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['generic_name'].hasError('maxlength')">
+                        {{ errorMessages.maxLength }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['generic_name'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="medicine_type_id" placeholder="medicine type" >
+                        <mat-option label="-- select Medicine Type"></mat-option>
+                        <mat-option *ngFor="let medicineType of medicinesType " [value]="medicineType.id">{{medicineType?.title}}</mat-option>
+                    </mat-select>
+
+                    <mat-error  *ngIf="medicineForm.controls['medicine_type_id'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+                 <mat-form-field class="full-width">
+                    <input  matInput placeholder="Measurement Value" formControlName="measurement_value" autocomplete="measurement_value"
+                            type="number">
+
+                    <mat-error  *ngIf="medicineForm.controls['measurement_value'].hasError('min')">
+                        {{ errorMessages.min }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['measurement_value'].hasError('max')">
+                        {{ errorMessages.max }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['measurement_value'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="measurement_unit_id" placeholder="measurement unit" >
+                        <mat-option label="-- select Measurement Units"></mat-option>
+                        <mat-option *ngFor="let measurementUnit of measurementUnits " [value]="measurementUnit.id">{{measurementUnit?.title}}</mat-option>
+                    </mat-select>
+                    <mat-error  *ngIf="medicineForm.controls['measurement_unit_id'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions class="login-actions">
+                <button mat-raised-button *ngIf="data.isUpdateMode" color="primary" [disabled]="medicineForm.invalid || loading"
+                        (click)="store()">insert</button>
+                <button mat-raised-button *ngIf="!data.isUpdateMode" color="primary" [disabled]="medicineForm.invalid || loading"
+                        (click)="store()">insert</button>
+                <button  id="resetPassword" mat-raised-button color="accent" (click)="closeDialog()" type="button">close</button>
+            </mat-card-actions>
+
+        </mat-card>
+
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+    </form>
+
+</div>
+

@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+mat-card {
+    margin-top: 10px;
+}
+
+.float-left{
+    float: left!important;
+}
+.float-right{
+    float: right!important;
+}
+.both{
+    clear: both!important;
+}
+
+.action-icon{
+    font-size: 20px;
+}
+.action-icon-parent{
+    height: 40px;
+    width: 25px;
+}
+.action-icon:hover{
+    cursor: pointer;
+}

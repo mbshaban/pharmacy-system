@@ -1,0 +1,152 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center center">
+
+    <form [formGroup]="medicineForm">
+
+        <mat-card  fxFlex="100%" fxFlex.sm="100%" fxFlex.xs="100%">
+            <mat-card-title>Add New Medicine In</mat-card-title>
+
+
+            <mat-card-content>
+
+                <mat-form-field class="full-width">
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="Number"
+                           matInput
+                           formControlName="medicine_id"
+                           [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option  *ngFor="let option of filteredOptions | async"
+                                     [value]="option?.name + ' ' + option.measurement_value+ ' ' + option.title"
+                                     (onSelectionChange)="getMedicineId(option.id)">
+                            {{option?.name + " " + option.measurement_value + " " + option.title}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="medicine_main_packing_id" placeholder="packing " >
+                        <mat-option label="-- select packing "></mat-option>
+                        <mat-option *ngFor="let packing of packings" [value]="packing.id">{{packing?.title}}</mat-option>
+                    </mat-select>
+                    <mat-error  *ngIf="medicineForm.controls['medicine_main_packing_id'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="quantity" formControlName="quantity" autocomplete="quantity"
+                            type="number">
+                    <mat-error  *ngIf="medicineForm.controls['quantity'].hasError('min')">
+                        {{ errorMessages.min }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['quantity'].hasError('max')">
+                        {{ errorMessages.max }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['quantity'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="medicine price in" formControlName="medicine_price_in" autocomplete="medicine_price_in"
+                            type="number">
+
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_in'].hasError('min')">
+                        {{ errorMessages.min }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_in'].hasError('max')">
+                        {{ errorMessages.max }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_in'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input  matInput placeholder="medicine price out" formControlName="medicine_price_out" autocomplete="medicine_price_out"
+                            type="number">
+
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_out'].hasError('min')">
+                        {{ errorMessages.min }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_out'].hasError('max')">
+                        {{ errorMessages.max }}
+                    </mat-error>
+                    <mat-error  *ngIf="medicineForm.controls['medicine_price_out'].hasError('required')">
+                        <strong>{{errorMessages.required}}</strong>
+                    </mat-error>
+
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                        <mat-label>Expire a Date</mat-label>
+                        <input matInput formControlName="medicine_expire_date" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <div class="full-width">
+                    <mat-slide-toggle formControlName="has_small_pack" (click)="changeState()">does medicine has small packing ?</mat-slide-toggle>
+                </div>
+
+                <ng-container *ngIf="isSmallPacking">
+                    <mat-form-field class="full-width">
+                        <mat-select formControlName="sm_medicine_small_packing_id" placeholder="small packing " >
+                            <mat-option label="-- select packing "></mat-option>
+                            <mat-option *ngFor="let packing of packings" [value]="packing.id">{{packing?.title}}</mat-option>
+                        </mat-select>
+                        <mat-error  *ngIf="medicineForm.controls['sm_medicine_small_packing_id'].hasError('required')">
+                            <strong>{{errorMessages.required}}</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input  matInput placeholder="small quantity" formControlName="sm_quantity" autocomplete="sm_quantity"
+                                type="number">
+                        <mat-error  *ngIf="medicineForm.controls['sm_quantity'].hasError('min')">
+                            {{ errorMessages.min }}
+                        </mat-error>
+                        <mat-error  *ngIf="medicineForm.controls['sm_quantity'].hasError('max')">
+                            {{ errorMessages.max }}
+                        </mat-error>
+                        <mat-error  *ngIf="medicineForm.controls['sm_quantity'].hasError('required')">
+                            <strong>{{errorMessages.required}}</strong>
+                        </mat-error>
+
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input  matInput placeholder="small packet medicine price in" formControlName="sm_medicine_price_out" autocomplete="sm_medicine_price_in"
+                                type="number">
+
+                        <mat-error  *ngIf="medicineForm.controls['sm_medicine_price_out'].hasError('min')">
+                            {{ errorMessages.min }}
+                        </mat-error>
+                        <mat-error  *ngIf="medicineForm.controls['sm_medicine_price_out'].hasError('max')">
+                            {{ errorMessages.max }}
+                        </mat-error>
+                        <mat-error  *ngIf="medicineForm.controls['sm_medicine_price_out'].hasError('required')">
+                            <strong>{{errorMessages.required}}</strong>
+                        </mat-error>
+
+                    </mat-form-field>
+
+                </ng-container>
+
+
+            </mat-card-content>
+            <mat-card-actions class="login-actions">
+                <button mat-raised-button *ngIf="data.isUpdateMode" color="primary" [disabled]="medicineForm.invalid || loading"
+                        (click)="store()">insert</button>
+                <button mat-raised-button *ngIf="!data.isUpdateMode" color="primary" [disabled]="medicineForm.invalid || loading"
+                        (click)="store()">insert</button>
+                <button  id="resetPassword" mat-raised-button color="accent" (click)="closeDialog()" type="button">close</button>
+            </mat-card-actions>
+
+        </mat-card>
+
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+    </form>
+
+</div>
+

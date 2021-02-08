@@ -1,0 +1,105 @@
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+        <mat-card>
+            <mat-card-content>
+                <div class="padding-bottom-10 ">
+                    <form [formGroup]="patientForm" (ngSubmit)="insertName(patientForm.value)"  >
+                        <mat-form-field class="">
+                            <input matInput (blur)="insertName(patientForm.value)" placeholder="patient full name" formControlName="full_name"
+                                   type="text">
+
+                            <mat-error *ngIf="patientForm.controls['full_name'].hasError('minLength')">
+                                {{ errorMessages.minLength }}
+                            </mat-error>
+
+                            <mat-error *ngIf="patientForm.controls['full_name'].hasError('maxLength')">
+                                {{ errorMessages.maxLength }}
+                            </mat-error>
+
+                            <mat-error *ngIf="patientForm.controls['full_name'].hasError('required')">
+                                <strong>{{errorMessages.required}}</strong>
+                            </mat-error>
+
+                        </mat-form-field>
+                    </form>
+                    <span class="float-right"><span class="bold">Date:</span>  12 DEC 2020</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <ng-container>
+                    <button mat-raised-button class="float-right" [disabled]="!patientId" (click)="addNewMedicine()"> add new</button>
+
+                    <button mat-raised-button class="float-right margin-right-20" [disabled]="!total" (click)="payment()"> payment </button>
+                </ng-container>
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> No.</th>
+                        <td mat-cell *matCellDef="let element; let i=index"> {{(i + 1)}} </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.name + "  " }} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="company_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="medicine_type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.medicine_type}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="measurement_unit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> measurement unit</th>
+                        <td mat-cell
+                            *matCellDef="let element"> {{element.measurement_value + "  " + element.measurement_unit}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
+                        <td mat-cell *matCellDef="let element"> {{element.quantity + "  " + element.packing}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price</th>
+                        <td mat-cell class="bold"
+                            *matCellDef="let element"> {{element?.medicine_price_out + " AFN " }}  </td>
+                    </ng-container>
+                    <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> total price</th>
+                        <td class="bold" mat-cell
+                            *matCellDef="let element"> {{(element?.quantity * element?.medicine_price_out) + " AFN " }}  </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> action</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-mini-fab color="warn" (click)="deleteMedicine(element.id)">
+                                <mat-icon mat-list-icon class="action-icon">clear</mat-icon>
+                            </button>
+                            &nbsp;
+                            &nbsp;
+                            <button mat-mini-fab color="primary" (click)="editMedicine(element)">
+                                <mat-icon mat-list-icon class="action-icon">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <div class="padding-bottom-10">
+                    <span class="float-left"><span class="bold">Total:</span></span>
+                    <span class="float-right"><span class="bold"> {{total + "  AFN"}} </span></span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>
+

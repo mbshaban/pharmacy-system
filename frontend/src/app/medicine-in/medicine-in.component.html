@@ -1,0 +1,101 @@
+
+<div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div fxFlex="95%">
+        <!--        <mat-card>-->
+        <!--            <mat-card-content>-->
+        <!--                <h5> add new medicine </h5>-->
+        <!--            </mat-card-content>-->
+        <!--        </mat-card>-->
+        <mat-card>
+            <mat-card-content>
+                <ng-container>
+                    <h2 class="float-left">Medicines</h2>
+                    <button mat-raised-button class="float-right"  (click)="addNewMedicine()"> add new</button>
+                </ng-container>
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                        <td mat-cell *matCellDef="let element; let i=index"> {{(((paginationData.pageIndex - 1) * paginationData.pageSize) + (i + 1))}} </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="company_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.company_name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="medicine_type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Medicine Type </th>
+                        <td mat-cell *matCellDef="let element"> {{element.mttitle}} </td>
+                    </ng-container>
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+                        <td mat-cell *matCellDef="let element"> {{element.mquantity + "  " + element.putitle}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="price_per_item">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+                        <td class="bold" mat-cell *matCellDef="let element"> {{element.mprice +" AFN " }}  </td>
+                    </ng-container>
+
+                   <ng-container matColumnDef="total">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> total price </th>
+                        <td class="bold" mat-cell *matCellDef="let element"> {{(element.mquantity * element.mprice) +" AFN " }}  </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sells_price_per_item">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sell Price</th>
+                        <td mat-cell class="bold" *matCellDef="let element"> {{element.mpriceout +" AFN " }}  </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="squantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Small Quantity </th>
+                        <td mat-cell *matCellDef="let element" >
+                           <span *ngIf="element.squantity">{{element.squantity }}</span>
+                           <span *ngIf="!element.squantity">Not Exsit</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sprice_per_item">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Per Item </th>
+                        <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.smpriceout">{{element.smpriceout +" AFN " }}</span>
+                        <span *ngIf="!element.squantity">Not Exsit</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="expire_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Expire Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.medicine_expire_date | date}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef > action </th>
+                        <td mat-cell *matCellDef="let element">
+
+                            <button mat-mini-fab color="warn"  (click)="deleteMedicine(element.id)"> <mat-icon mat-list-icon class="action-icon">clear</mat-icon></button>
+                            &nbsp;
+                            &nbsp;
+                            <button mat-mini-fab color="primary" (click)="editMedicine(element)"> <mat-icon mat-list-icon class="action-icon">edit</mat-icon></button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="text-right">
+                    <mat-paginator dir="ltr"
+                                   (page)="onPageChangeEvent($event)">
+                    </mat-paginator>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>
+<div class="container dialog-bottom" fxLayout="row" fxLayoutAlign="center center">
+    <mat-progress-bar fxFlex="95%" fxFlex.sm="100%" fxFlex.xs="100%" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+</div>
